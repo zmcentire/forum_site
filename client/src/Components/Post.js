@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import {withPosts} from '../providers/PostDataProvider';
-import {Link, withRouter} from 'react-router-dom';
 import PostCard from './PostCard';
 
 import axios from 'axios';
-const API_HOST = process.env.REACT_APP_API_HOST;
+// const API_HOST = "http://localhost:8000/";
 
 const PostWrapper = styled.div`
   width: 100%;
@@ -16,8 +15,8 @@ class Post extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      votes: Number,
-      topic: String,
+      votes: 0,
+      topic: "",
       onePost: {
         tags: [],   //This is here to prime state for the tags array. if its not there, the .join method will break on render before the data comes back from axios
       },
@@ -26,7 +25,7 @@ class Post extends React.Component {
   };
   componentDidMount() {
     if (this.props.type === "postPage") {
-      axios.get(`${API_HOST}posts/OnePost/${this.props.postId}`)
+      axios.get(`/posts/OnePost/${this.props.postId}`)
         .then((res) => {
           try {
             this.setState({
@@ -98,7 +97,7 @@ class Post extends React.Component {
   };
 };
 
-export default withRouter(withPosts(Post));
+export default withPosts(Post);
 
 
 

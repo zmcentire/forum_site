@@ -1,18 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 
 //@material-ui
 import { makeStyles } from '@material-ui/core/styles';
 import {Card,CardActions,CardContent,Button,Typography,Chip,
         ExpansionPanel,ExpansionPanelSummary,ExpansionPanelDetails,
-        TextField,Icon} from '@material-ui/core';
+        TextField} from '@material-ui/core';
 // import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 //Components
 import styled from 'styled-components';
 import {withPosts} from '../providers/PostDataProvider';
-import {Link, withRouter} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
-const API_HOST = process.env.REACT_APP_API_HOST;
+// const API_HOST = "http://localhost:8000/";
 const CommentButton = styled(Button)`
 `;
 const NavLink = styled(Link)`
@@ -58,7 +58,7 @@ function PostCard(props) {
       username: user,
       body: comment
     }
-    axios.post(`${API_HOST}comments/${_id}`, newComment)
+    axios.post(`/comments/${_id}`, newComment)
       .then(res => {
         setComment(res.data)
         props.getCommentsForPost(_id)
@@ -78,7 +78,7 @@ function PostCard(props) {
             ?
             title
             :
-            <NavLink to={`/Posts/${_id}`}>
+            <NavLink to={`/PostsPage/${_id}`}>
               {title}
             </NavLink>
           }
@@ -88,7 +88,7 @@ function PostCard(props) {
           {
             props.type === "popular" || props.type === "postPage"
             ?
-            <AddSpaceLeft>to <NavLink to={`/Topics/${topic}`}>
+            <AddSpaceLeft>to <NavLink to={`/TopicsPage/${topic}`}>
                       {props.topic}
                     </NavLink>
             </AddSpaceLeft>
@@ -107,8 +107,8 @@ function PostCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button variant="contained" type="up" onClick={() => props.handleVote("up",props.votes,_id)}>Sweet!</Button>
-        <Button variant="contained" type="down" onClick={() => props.handleVote("down",props.votes,_id)}>Not Cool</Button>
+        <Button variant="contained" onClick={() => props.handleVote("up",props.votes,_id)}>Sweet!</Button>
+        <Button variant="contained" onClick={() => props.handleVote("down",props.votes,_id)}>Not Cool</Button>
       </CardActions>
         <div className={classes.root}>
           <ExpansionPanel>
