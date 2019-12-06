@@ -40,14 +40,14 @@ class NewTopic extends Component {
                 name: this.state.name
             }
 
-            axios.post('http://localhost:8000/Topics', post).then(() => {
+            axios.post('/Topics', post).then(() => {
                 this.setState({redirect: true})
                 this.props.getTopics();
             })
         }
 
         if(this.state.redirect){
-            return <Redirect to='/Topics' />
+            return <Redirect to='/TopicsPage' />
         }
 
         return (
